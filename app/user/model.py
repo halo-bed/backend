@@ -16,7 +16,7 @@ class User:
         self.id = id
         self.device_id = str(device_id) if device_id else None
         self.username = username
-        self.password_hash = generate_password_hash(password)
+        self.password = password
         self.email = email
         self.created_at = created_at or datetime.now()
     
@@ -24,7 +24,7 @@ class User:
         doc = {
             "device_id": self.device_id,
             "username": self.username,
-            "password_hash": self.password_hash,
+            "password": self.password,
             "email": self.email,
             "created_at": self.created_at
         }
@@ -39,7 +39,7 @@ class User:
         return User(
             device_id=data.get("device_id"),
             username=data.get("username"),
-            password=data.get("password_hash"),
+            password=data.get("password"),
             email=data.get("email"),
             created_at=data.get("created_at"),
             id=data.get("_id")
@@ -68,6 +68,8 @@ class User:
         return None
     
     def save(self):
+        if self.password and not self.password.startswith("scrypt:"):
+            self.password = self.hash_password(self.password)
         user_dict = self.to_dict()
         result = mongo.db.users.insert_one(user_dict)
         self.id = result.inserted_id

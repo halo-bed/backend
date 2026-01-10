@@ -13,7 +13,7 @@ def create_app():
     app = Flask(__name__)
 
     app.config['MONGO_URI'] = os.getenv('MONGO_URI')
-    app.config['SECRET_KEY'] = os.getenv('SECRET_KEY')
+    app.config['SECRET_KEY'] = os.getenv('SECRET_KEY', "dev-secret-change-me")
 
     mongo.init_app(app)
 

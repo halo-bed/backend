@@ -10,22 +10,27 @@ def login_page():
     next = request.args.get('next')
     return render_template('login.html', next=next)
 
-@auth_bp.route('/login/default', methods=['GET'])
-def default_login():
+@auth_bp.route('/login/default', methods=['POST'])
+def login_default():
     email = request.form.get('email')
     password = request.form.get('password')
     next = request.form.get('next') or url_for('dashboard.dashboard_page')
 
     if email and password:
         user = User.get_by_email(email)
-        if user and User.check_password(user.password_hash, password):
+        if user and User.check_password(user.password, password):
+
             session.clear()
             session['user_id'] = str(user.id)
             session['user_email'] = email
             session['user_name'] = user.username
             session["auth_provider"] = "default"
+
+            s = dict(session)
+            print(f"Session after login: {s}")
             return redirect(next)
         else:
+            return {"error": "Invalid credentials"}, 401
             return redirect(url_for('auth.login_page', next=next))
         
 @auth_bp.route('/logout')
