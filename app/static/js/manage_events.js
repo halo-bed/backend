@@ -23,5 +23,3 @@ async function addEvent(msg) {
         })
     })
 }
-
-document.getElementById("load-events-btn").addEventListener("click", fetchEvents);

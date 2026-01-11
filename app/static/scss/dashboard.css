@@ -16,7 +16,7 @@ body {
 
 .dash-header {
   text-align: center;
-  margin-bottom: 55px;
+  margin-bottom: 70px;
 }
 
 .dash-title {
@@ -171,6 +171,79 @@ body {
 .autooff-value {
   font-size: 19px;
   font-weight: 700;
+}
+
+.schedule-card {
+  padding: 28px 26px;
+  display: flex;
+  flex-direction: column;
+}
+
+.schedule-row {
+  display: grid;
+  grid-template-columns: 90px 1fr;
+  align-items: center;
+  gap: 17px;
+  margin-top: 30px;
+}
+
+.schedule-label {
+  font-size: 19px;
+  font-weight: 500;
+  opacity: 0.95;
+}
+
+.schedule-input {
+  position: relative;
+  height: 62px;
+  border-radius: 12px;
+  border: 1px solid rgba(255, 255, 255, 0.1);
+  background: rgba(0, 0, 0, 0.12);
+  padding: 0 54px 0 22px;
+  display: flex;
+  align-items: center;
+}
+
+.schedule-input input {
+  width: 100%;
+  height: 100%;
+  border: none;
+  outline: none;
+  background: transparent;
+  color: #eaf2ff;
+  font-size: 18px;
+  font-weight: 500;
+}
+
+.schedule-input input::-webkit-calendar-picker-indicator {
+  opacity: 0;
+  cursor: pointer;
+}
+
+.clock-icon {
+  position: absolute;
+  right: 18px;
+  width: 22px;
+  height: 22px;
+  opacity: 0.6;
+}
+
+.schedule-save-btn {
+  margin-top: auto;
+  width: 100%;
+  height: 55px;
+  border-radius: 12px;
+  border: none;
+  cursor: pointer;
+  background: #00a3da;
+  color: white;
+  font-size: 20px;
+  font-weight: 500;
+  transition: 0.18s ease;
+}
+
+.schedule-save-btn:hover {
+  background: #069acb;
 }
 
 @media (max-width: 900px) {

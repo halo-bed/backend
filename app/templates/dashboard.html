@@ -14,51 +14,77 @@ Dashboard
 <script src="{{ url_for('static', filename='js/publish_control.js') }}" defer></script>
 
 <div class="dash-page">
-  <div class="dash-header">
-    <h1 class="dash-title">Smart Bed Light</h1>
-    <p class="dash-subtitle">Motion Detection & Control Dashboard</p>
-  </div>
+    <div class="dash-header">
+        <h1 class="dash-title">Halo-Bed</h1>
+        <p class="dash-subtitle">Motion Detection & Control Dashboard</p>
+    </div>
 
-  <div class="dash-grid">
-    <section class="card status-card">
-      <h2 class="card-title">Status</h2>
+    <div class="dash-grid">
+        <section class="card status-card">
+            <h2 class="card-title">Status</h2>
 
-      <div class="toggle-row">
-        <button id="btn-on" class="toggle-btn">
-          <div class="toggle-icon">⏻</div>
-          <div class="toggle-text">Turn ON</div>
-        </button>
+            <div class="toggle-row">
+                <button id="btn-on" class="toggle-btn">
+                    <div class="toggle-icon">⏻</div>
+                    <div class="toggle-text">Turn ON</div>
+                </button>
 
-        <button id="btn-off" class="toggle-btn">
-          <div class="toggle-icon">⭘</div>
-          <div class="toggle-text">Turn OFF</div>
-        </button>
-      </div>
+                <button id="btn-off" class="toggle-btn">
+                    <div class="toggle-icon">⭘</div>
+                    <div class="toggle-text">Turn OFF</div>
+                </button>
+            </div>
 
-      <div id="motion-box" class="status-line">
-        <div class="left">
-          <img src="../static/scss/user.png" class="mini-icon"alt="Motion icon">
-          <span class="label">Motion</span>
-        </div>
-        <div id="motion-text" class="value muted">NO MOTION</div>
-      </div>
+            <div id="motion-box" class="status-line">
+                <div class="left">
+                    <img src="../static/scss/user.png" class="mini-icon" alt="Motion icon">
+                    <span class="label">Motion</span>
+                </div>
+                <div id="motion-text" class="value muted">NO MOTION</div>
+            </div>
 
-      <div class="status-line">
-        <div class="left">
-          <span class="label">Last Motion</span>
-        </div>
-        <div id="last-motion-time" class="value muted">--:--:--</div>
-      </div>
+            <div class="status-line">
+                <div class="left">
+                    <span class="label">Last Motion</span>
+                </div>
+                <div id="last-motion-time" class="value muted">--:--:--</div>
+            </div>
 
-      <div id="autooff-box" class="autooff-line">
-        <div class="left">
-          <span class="label">Auto-off in</span>
-        </div>
-        <div id="autooff-seconds" class="autooff-value">--s</div>
-      </div>
-    </section>
+            <div id="autooff-box" class="autooff-line">
+                <div class="left">
+                    <span class="label">Auto-off in</span>
+                </div>
+                <div id="autooff-seconds" class="autooff-value">--s</div>
+            </div>
+        </section>
 
-  </div>
+        <section class="card schedule-card">
+            <h2 class="card-title">Schedule</h2>
+
+            <div class="schedule-row">
+                <div class="schedule-label">Start:</div>
+
+                <div class="schedule-input">
+                    <input type="time" id="start-time" value="22:00">
+                    <img src="../static/scss/clock.png" class="clock-icon" alt="Clock icon">
+                </div>
+            </div>
+
+            <div class="schedule-row">
+                <div class="schedule-label">End:</div>
+
+                <div class="schedule-input">
+                    <input type="time" id="end-time" value="07:00">
+                    <img src="../static/scss/clock.png" class="clock-icon" alt="Clock icon">
+                </div>
+            </div>
+
+            <button id="save-time-window-btn" class="schedule-save-btn">
+                Save schedule
+            </button>
+        </section>
+
+    </div>
 </div>
 
 {% endblock %}

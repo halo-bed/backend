@@ -1,18 +1,18 @@
-slider_time = document.getElementById("auto-off-range");
-slider_time.addEventListener("input", () => {
-    message = {
-        "auto-off" : parseInt(slider_time.value)
-    }
-    publishMessage(message);
-})
+// slider_time = document.getElementById("auto-off-range");
+// slider_time.addEventListener("input", () => {
+//     message = {
+//         "auto-off" : parseInt(slider_time.value)
+//     }
+//     publishMessage(message);
+// })
 
-slider_brightness = document.getElementById("brightness-range");
-slider_brightness.addEventListener("input", () => {
-    message = {
-        "brightness" : parseInt(slider_brightness.value)
-    }
-    publishMessage(message);
-})
+// slider_brightness = document.getElementById("brightness-range");
+// slider_brightness.addEventListener("input", () => {
+//     message = {
+//         "brightness" : parseInt(slider_brightness.value)
+//     }
+//     publishMessage(message);
+// })
 
 document.getElementById("save-time-window-btn").addEventListener("click", () => {
     start_time = document.getElementById("start-time").value;
@@ -23,4 +23,5 @@ document.getElementById("save-time-window-btn").addEventListener("click", () => 
         "end-time" : end_time
     }
     publishMessage(message);
+    console.log("Published schedule:", message);
 })
