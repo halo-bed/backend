@@ -3,8 +3,8 @@
 body {
   margin: 0;
   font-family: system-ui, -apple-system, Segoe UI, Roboto, Arial, sans-serif;
-  background: radial-gradient(900px 600px at 50% -10%, rgba(0, 160, 255, 0.14), transparent 60%),
-              #0a0a11;
+  background: radial-gradient(900px 600px at 50% -10%, rgba(0, 135, 214, 0.14), transparent 60%),
+              #060b12;
   color: #eaf2ff;
 }
 
@@ -39,7 +39,7 @@ body {
 }
 
 .card {
-  background: #0e1015;
+  background: #0d1216;
   border: 2px solid rgba(255, 255, 255, 0.10);
   border-radius: 20px;
   padding: 22px;
@@ -84,7 +84,7 @@ body {
 .toggle-btn.on-active {
   background: #00a3da;
   color: #06101a;
-  border-color: rgba(0, 163, 255, 0.45);
+  border-color: rgba(52, 180, 255, 0.45);
 }
 
 .toggle-btn.off-active {
@@ -101,6 +101,11 @@ body {
 .toggle-text {
   font-size: 17px;
   font-weight: 600;
+}
+
+.toggle-btn.on-active .toggle-text,
+.toggle-btn.on-active .toggle-icon {
+  color: #ffffff;
 }
 
 .status-line {
@@ -160,8 +165,8 @@ body {
   padding: 0 18px;
   margin-top: 20px;
 
-  background: #273a41;
-  border: 1px solid #4a505b;
+  background: #004850;
+  border: 1px solid #227d87;
 
   display: flex;
   align-items: center;
@@ -170,7 +175,7 @@ body {
 
 .autooff-value {
   font-size: 19px;
-  font-weight: 900;
+  font-weight: 700;
 }
 
 @media (max-width: 900px) {
