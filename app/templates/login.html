@@ -37,7 +37,7 @@
                 <span>Or continue with</span>
             </div>
 
-            <button class="auth-google" type="button">
+            <button class="auth-google" type="button" onclick="window.location.href=`{{ url_for('auth.login_google') }}`">
                 <img class="google-icon" src="../static/scss/google.png" alt="Google">
                 <span>Login with Google</span>
             </button>
