@@ -16,8 +16,8 @@
 
     <div class="auth-card">
         <div class="auth-tabs">
-            <a class="auth-tab active" href="{{ url_for('auth.login_default') }}">Login</a>
-            <a class="auth-tab" href="{{ url_for('auth.register_default') }}">Register</a>
+            <a class="auth-tab active" href="{{ url_for('auth.login_page') }}">Login</a>
+            <a class="auth-tab" href="{{ url_for('auth.register_page') }}">Register</a>
         </div>
 
         <form class="auth-form" action="{{ url_for('auth.login_default') }}" method="post">
@@ -38,7 +38,7 @@
             </div>
 
             <button class="auth-google" type="button">
-                <img class="google-icon" src="{{ url_for('static', filename='img/google.png') }}" alt="Google">
+                <img class="google-icon" src="../static/scss/google.png" alt="Google">
                 <span>Login with Google</span>
             </button>
         </form>

@@ -2,18 +2,47 @@
 
 {% block title %}Register{% endblock %}
 
-{% block content %}
-<form action="{{ url_for('auth.register_default') }}" method="post">
-    <label> Username:
-        <input type="text" name="username" placeholder="Username">
-    </label>
-    <label> Email:
-        <input type="text" name="email" placeholder="Email">
-    </label>
-    <label> Password:
-        <input type="password" name="password" placeholder="Password">
-    </label>
+{% block styles %}
+<link rel="stylesheet" href="../static/scss/auth.css">
+{% endblock %}
 
-    <input type="submit" value="Register" />
-</form>
+{% block content %}
+<div class="auth-page">
+    <div class="auth-header">
+        <img class="auth-logo" src="../static/scss/bulb.png" alt="Logo">
+        <h1 class="auth-title">Smart Bed Light</h1>
+        <p class="auth-subtitle">Motion Detection System</p>
+    </div>
+
+    <div class="auth-card">
+        <div class="auth-tabs">
+            <a class="auth-tab" href="{{ url_for('auth.login_page') }}">Login</a>
+            <a class="auth-tab active" href="{{ url_for('auth.register_page') }}">Register</a>
+        </div>
+
+        <form class="auth-form" action="{{ url_for('auth.register_default') }}" method="post">
+            <label class="auth-label">
+                <span class="auth-label-text">Username</span>
+                <input class="auth-input" type="text" name="username" placeholder="Enter your username" required>
+            </label>
+
+            <label class="auth-label">
+                <span class="auth-label-text">Email</span>
+                <input class="auth-input" type="email" name="email" placeholder="Enter your email" required>
+            </label>
+
+            <label class="auth-label">
+                <span class="auth-label-text">Password</span>
+                <input class="auth-input" type="password" name="password" placeholder="Enter your password" required>
+            </label>
+
+            <label class="auth-label">
+                <span class="auth-label-text">Confirm Password</span>
+                <input class="auth-input" type="password" name="confirm_password" placeholder="Confirm your password" required>
+            </label>
+
+            <button class="auth-submit" type="submit">Create Account</button>
+        </form>
+    </div>
+</div>
 {% endblock %}
