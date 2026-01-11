@@ -4,6 +4,7 @@ import os
 
 from .auth.routes import auth_bp
 from .main.routes import dashboard_bp
+from .events.routes import events_bp
 
 from app.extensions import mongo
 
@@ -18,6 +19,7 @@ def create_app():
     mongo.init_app(app)
 
     app.register_blueprint(auth_bp, url_prefix='/auth')
+    app.register_blueprint(events_bp, url_prefix='/events')
     app.register_blueprint(dashboard_bp, url_prefix='/')
     
     return app
