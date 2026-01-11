@@ -32,7 +32,7 @@ class Event:
         )
     
     @staticmethod
-    def get_last_events_by_user(user_id, limit=5):
+    def get_last_events_by_user(auth_provider, user_id, limit=5):
         events_cursor = mongo.db.events.find({"user_id": user_id}).sort("timestamp", -1).limit(limit)
         return [Event.from_dict(event_data).to_dict() for event_data in events_cursor]
 

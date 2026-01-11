@@ -11,9 +11,11 @@ class User:
             password,
             email,
             created_at=None,
-            id=None
+            id=None,
+            google_id=None
     ):
         self.id = id
+        self.google_id = google_id
         self.device_id = str(device_id) if device_id else None
         self.username = username
         self.password = password
@@ -22,6 +24,7 @@ class User:
     
     def to_dict(self):
         doc = {
+            "google_id": str(self.google_id) if self.google_id else None,
             "device_id": self.device_id,
             "username": self.username,
             "password": self.password,
@@ -37,6 +40,7 @@ class User:
     @staticmethod
     def from_dict(data):
         return User(
+            google_id=data.get("google_id"),
             device_id=data.get("device_id"),
             username=data.get("username"),
             password=data.get("password"),

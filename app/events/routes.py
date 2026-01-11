@@ -27,6 +27,7 @@ def last_events():
         return {"error": "Unauthorized"}, 401
 
     user_id = session['user_id']
-    result = Event.get_last_events_by_user(user_id, limit=5)
+    auth_provider = session.get("auth_provider", "default")
+    result = Event.get_last_events_by_user(auth_provider, user_id, limit=5)
 
     return {"events": result}, 200

@@ -43,6 +43,10 @@ def login_default():
 
     if email and password:
         user = User.get_by_email(email)
+
+        if getattr(user, "auth_provider", None) == "google":
+            return redirect(url_for('auth.login_page', next=next))
+    
         if user and User.check_password(user.password, password):
 
             session.clear()
@@ -56,6 +60,9 @@ def login_default():
             return redirect(next)
         else:
             return redirect(url_for('auth.login_page', next=next))
+        
+    else:
+        return redirect(url_for('auth.login_page', next=next))
 
 @auth_bp.route('/login/google', methods=['GET'])
 def login_google():
@@ -90,6 +97,17 @@ def callback():
     session['user_email'] = email
     session['user_name'] = username
     session["auth_provider"] = "google"
+
+    existing_user = User.get_by_email(email)
+    if existing_user is None:
+        new_user = User(
+            device_id=str(os.getenv("DEVICE_ID")),
+            username=username,
+            password=None,
+            email=email,
+            google_id=id_info.get("sub")
+        )
+        new_user.save()
 
     return redirect(url_for('dashboard.dashboard_page'))
 

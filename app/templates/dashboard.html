@@ -1,0 +1,19 @@
+{% extends "base.html" %}
+
+{% block title %}
+Dashboard
+{% endblock %}
+
+{% block styles %}{% endblock %}
+
+{% block content %}
+<script src="../static/js/fetch_events.js" defer></script>
+<h1>Welcome to the Dashboard</h1>
+<div class="last-events-container">
+    <h2>Last Events</h2>
+    <div id="events-list">
+        <!-- Events will be dynamically loaded here -->
+    </div>
+</div>
+<button id="load-events-btn">Load</button>
+{% endblock %}
