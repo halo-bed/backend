@@ -4,39 +4,61 @@
 Dashboard
 {% endblock %}
 
+{% block styles %}
+<link rel="stylesheet" href="../static/scss/dashboard.css">
+{% endblock %}
+
 {% block content %}
 <script src="{{ url_for('static', filename='js/pubnub.js') }}" defer></script>
 <script src="{{ url_for('static', filename='js/manage_events.js') }}" defer></script>
 <script src="{{ url_for('static', filename='js/publish_control.js') }}" defer></script>
 
-<h1>Welcome to the Dashboard</h1>
+<div class="dash-page">
+  <div class="dash-header">
+    <h1 class="dash-title">Smart Bed Light</h1>
+    <p class="dash-subtitle">Motion Detection & Control Dashboard</p>
+  </div>
 
-<button id="load-events-btn">Load</button>
+  <div class="dash-grid">
+    <section class="card status-card">
+      <h2 class="card-title">Status</h2>
 
-<h2>Set Auto-Off Timer (seconds)</h2>
-<input type="range" id="auto-off-range" min="5" max="120" step="5" value="30">
+      <div class="toggle-row">
+        <button id="btn-on" class="toggle-btn">
+          <div class="toggle-icon">⏻</div>
+          <div class="toggle-text">Turn ON</div>
+        </button>
 
-<h2>Set Brightness</h2>
-<input type="range" id="brightness-range" min="5" max="100" step="5" value="50">
+        <button id="btn-off" class="toggle-btn">
+          <div class="toggle-icon">⭘</div>
+          <div class="toggle-text">Turn OFF</div>
+        </button>
+      </div>
 
-<hr>
+      <div id="motion-box" class="status-line">
+        <div class="left">
+          <img src="../static/scss/user.png" class="mini-icon"alt="Motion icon">
+          <span class="label">Motion</span>
+        </div>
+        <div id="motion-text" class="value muted">NO MOTION</div>
+      </div>
 
-<h2>Active Time Window</h2>
+      <div class="status-line">
+        <div class="left">
+          <span class="label">Last Motion</span>
+        </div>
+        <div id="last-motion-time" class="value muted">--:--:--</div>
+      </div>
 
-<label>
-  Start Time:
-  <input type="time" id="start-time" value="22:00">
-</label>
+      <div id="autooff-box" class="autooff-line">
+        <div class="left">
+          <span class="label">Auto-off in</span>
+        </div>
+        <div id="autooff-seconds" class="autooff-value">--s</div>
+      </div>
+    </section>
 
-<br><br>
-
-<label>
-  End Time:
-  <input type="time" id="end-time" value="06:00">
-</label>
-
-<br><br>
-
-<button id="save-time-window-btn">Save Time Window</button>
+  </div>
+</div>
 
 {% endblock %}
