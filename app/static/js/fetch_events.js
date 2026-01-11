@@ -1,5 +1,5 @@
 async function fetchEvents() {
-    url = "http://127.0.0.1:5000/events/last_events"  // TODO: change after deploy
+    url = "http://127.0.0.1:5001/events/last_events"  // TODO: change after deploy
     response = await fetch(url)
 
     if (response.ok) {
