@@ -1,7 +1,11 @@
 from ..decorators import login_required
-from flask import Blueprint, render_template, request, session, redirect, url_for
+from flask import Blueprint, render_template, request, session, redirect, url_for, jsonify
 from ..user.model import User
 from ..extensions import mongo
+from pubnub.pnconfiguration import PNConfiguration
+from pubnub.pubnub import PubNub
+from pubnub.exceptions import PubNubException
+
 import os
 
 from google_auth_oauthlib.flow import Flow
@@ -11,6 +15,25 @@ import cachecontrol
 from google.auth.transport.requests import Request
 from google.oauth2 import id_token
 import google.auth.transport.requests
+
+pubnub_admin = None
+
+def must_env(name: str) -> str:
+    v = os.getenv(name)
+    if not v or not v.strip():
+        raise RuntimeError(f"Missing env var: {name}")
+    return v.strip()
+
+def get_pubnub_admin() -> PubNub:
+    global pubnub_admin
+    if pubnub_admin is None:
+        pnconfig = PNConfiguration()
+        pnconfig.publish_key = must_env("PUBNUB_PUBLISH_KEY")
+        pnconfig.subscribe_key = must_env("PUBNUB_SUBSCRIBE_KEY")
+        pnconfig.secret_key = must_env("PUBNUB_SECRET_KEY")
+        pnconfig.user_id = "server"
+        pubnub_admin = PubNub(pnconfig)
+    return pubnub_admin
 
 BASE_DIR = os.path.abspath(
     os.path.join(os.path.dirname(__file__), "../../")
@@ -142,3 +165,63 @@ def register_default():
             return redirect(next)
         else:
             return redirect(url_for('auth.register_page', next=next))
+        
+
+@auth_bp.route("/pubnub-token", methods=["GET"])
+def pubnub_token():
+    if "user_id" not in session:
+        return jsonify({"error": "Unauthorized"}), 401
+
+    try:
+        from pubnub.models.consumer.v3.channel import Channel
+
+        channels = [
+            Channel.id("pir-events").read(),     # web client can read events
+            Channel.id("pir-control").write(),   # web client can publish control messages
+        ]
+        admin = get_pubnub_admin()
+        envelope = (
+            admin.grant_token()
+            .channels(channels)
+            .ttl(60)   # minutes
+            .sync()
+        )
+
+        # SDKs differ slightly; this is the canonical accessor in docs
+        token = envelope.result.get_token() if hasattr(envelope.result, "get_token") else envelope.result.token
+
+        return jsonify({"token": token})
+
+    except PubNubException as e:
+        return jsonify({"error": "Failed to generate PubNub token", "details": str(e)}), 500
+    except Exception as e:
+        return jsonify({"error": "Server error generating token", "details": str(e)}), 500
+    
+@auth_bp.route("/device/pubnub-token", methods=["POST"])
+def device_pubnub_token():
+    # Pi sends: X-DEVICE-KEY: <DEVICE_KEY>
+    device_key = request.headers.get("X-DEVICE-KEY", "")
+    if not device_key or device_key != os.getenv("DEVICE_KEY", ""):
+        return jsonify({"error": "Unauthorized"}), 401
+
+    try:
+        from pubnub.models.consumer.v3.channel import Channel
+        channels = [
+            Channel.id("pir-events").write(),   # Pi publishes events
+            Channel.id("pir-control").read(),   # Pi reads control messages
+        ]
+        admin = get_pubnub_admin()
+        envelope = (
+            admin.grant_token()
+            .channels(channels)
+            .ttl(43200)  # minutes = 30 days (adjust as you like)
+            .sync()
+        )
+
+        token = envelope.result.get_token() if hasattr(envelope.result, "get_token") else envelope.result.token
+        return jsonify({"token": token})
+
+    except PubNubException as e:
+        return jsonify({"error": "Failed to generate PubNub device token", "details": str(e)}), 500
+    except Exception as e:
+        return jsonify({"error": "Server error generating device token", "details": str(e)}), 500
