@@ -110,16 +110,29 @@ pubnub.addListener({
             setAutoOffUI(0);
         }
 
-        if (sts === "ON") {
-            await addEvent("Motion Detected");
-
-            const now = new Date();
-            const time = now.toLocaleTimeString([], { hour: "2-digit", minute: "2-digit", second: "2-digit" });
-            setLastMotionUI(time);
+        motion = null;
+        switch(sts) {
+            case "ON":
+                motion = "Motion Detected: LED ON";
+                break;
+            case "OFF":
+                motion = "No Motion: LED OFF";
+                break;
+            case "updated":
+                motion = "Setting Updated";
+                break;
+            default:
+                motion = "Unknown";
         }
-
-        motion = sts === "ON" ? "Motion Detected" : "No Motion";
         console.log("Updated motion to:", motion);
+
+        await addEvent(`${motion}`);
+        if (typeof refreshEventsUI === "function") {
+            refreshEventsUI();
+        }
+        const now = new Date();
+        const time = now.toLocaleTimeString([], { hour: "2-digit", minute: "2-digit", second: "2-digit" });
+        setLastMotionUI(time);
 
         if (msg.auto_off != null) {
             startAutoOffCountdown(msg.auto_off);
