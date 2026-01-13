@@ -1,5 +1,5 @@
 async function fetchEvents() {
-  const response = await fetch("http://127.0.0.1:5001/events/last_events");  // TODO: change after deploy
+  const response = await fetch("https://halo-bed.online/events/last_events"); 
 
   if (response.ok) {
     const data = await response.json();
@@ -11,7 +11,7 @@ async function fetchEvents() {
 }
 
 async function addEvent(msg) {
-  await fetch("http://127.0.0.1:5001/events/save_event", { 
+  await fetch("https://halo-bed.online/events/save_event", { 
     method: "POST",
     headers: { "Content-Type": "application/json" },
     body: JSON.stringify({ description: msg })
